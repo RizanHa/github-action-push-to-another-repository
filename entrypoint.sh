@@ -166,7 +166,7 @@ maxCount=30
 counter=0
 pushCounter=1
 
-for a in `find -f ** -type f`; do
+for a in `find -path ** -type f`; do
 	echo "[+] file - $a"
 
 	echo "[+] Adding git commit"
