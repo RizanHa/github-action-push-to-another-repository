@@ -153,18 +153,18 @@ then
     git switch -c "$TARGET_BRANCH"
 fi
 
-array=()
-for i in `find -f ** -type f`;do
+#array=()
+#for i in `find -f ** -type f`;do
      #echo "$i"
-     array+=( "$i" )
-done
+#     array+=( "$i" )
+#done
 
 
 declare -i maxCount=30
 declare -i counter=0
 declare -i pushCounter=1
 
-for a in "${array[@]}"; do
+for a in `find -f ** -type f`; do
     echo "[+] file - $a"
 
 		echo "[+] Adding git commit"
@@ -175,7 +175,7 @@ for a in "${array[@]}"; do
     if (($counter == $maxCount ));
     then
         counter=0
-        echo "[+] git push -----"
+        echo "[+] git push ------ $pushCounter"
 
 		echo "[+] git status:"
 		git status
@@ -197,7 +197,7 @@ done
  if (($counter != 0 ));
 then
 	
-	echo "[+] git push-----"
+	echo "[+] git push------ $pushCounter"
 
 	
 	echo "[+] git status:"
