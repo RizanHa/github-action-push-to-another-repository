@@ -153,16 +153,67 @@ then
     git switch -c "$TARGET_BRANCH"
 fi
 
-echo "[+] Adding git commit"
-git add .
+array=()
+for i in `find -f ** -type f`;do
+     #echo "$i"
+     array+=( "$i" )
+done
 
-echo "[+] git status:"
-git status
 
-echo "[+] git diff-index:"
-# git diff-index : to avoid doing the git commit failing if there are no changes to be commit
-git diff-index --quiet HEAD || git commit --message "$COMMIT_MESSAGE"
+declare -i maxCount=30
+declare -i counter=0
+declare -i pushCounter=1
 
-echo "[+] Pushing git commit"
-# --set-upstream: sets de branch when pushing to a branch that does not exist
-git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH"
+for a in "${array[@]}"; do
+    echo "[+] file - $a"
+
+		echo "[+] Adding git commit"
+		git add $a
+
+    counter+=1
+
+    if (($counter == $maxCount ));
+    then
+        counter=0
+        echo "[+] git push -----"
+
+		echo "[+] git status:"
+		git status
+
+		echo "[+] git diff-index:"
+		# git diff-index : to avoid doing the git commit failing if there are no changes to be commit
+		git diff-index --quiet HEAD || git commit --message "$COMMIT_MESSAGE - $pushCounter"
+
+		echo "[+] Pushing git commit - $pushCounter"
+		# --set-upstream: sets de branch when pushing to a branch that does not exist
+		git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH"
+
+		pushCounter+=1
+	fi
+
+done
+
+
+ if (($counter != 0 ));
+then
+	
+	echo "[+] git push-----"
+
+	
+	echo "[+] git status:"
+	git status
+
+	echo "[+] git diff-index:"
+	# git diff-index : to avoid doing the git commit failing if there are no changes to be commit
+	git diff-index --quiet HEAD || git commit --message "$COMMIT_MESSAGE - $pushCounter"
+
+	echo "[+] Pushing git commit - $pushCounter"
+	# --set-upstream: sets de branch when pushing to a branch that does not exist
+	git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH"
+
+fi
+
+
+
+
+
