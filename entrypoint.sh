@@ -165,8 +165,10 @@ echo "[+] start push"
 maxCount=30
 counter=0
 pushCounter=1
+aa=$(`find -path ** -type f`)
+echo "[+] aa - $aa"
 
-for a in `find -path ** -type f`; do
+for a in $aa; do
 	echo "[+] file - $a"
 
 	echo "[+] Adding git commit"
