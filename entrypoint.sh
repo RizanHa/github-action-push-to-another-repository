@@ -160,9 +160,9 @@ fi
 #done
 
 
-declare -i maxCount=30
-declare -i counter=0
-declare -i pushCounter=1
+maxCount=30
+counter=0
+pushCounter=1
 
 for a in `find -f ** -type f`; do
     echo "[+] file - $a"
@@ -170,9 +170,9 @@ for a in `find -f ** -type f`; do
 		echo "[+] Adding git commit"
 		git add $a
 
-    counter+=1
+    counter=(($counter + 1))
 
-    if (($counter == $maxCount ));
+    if [ $counter -eq $maxCount ];
     then
         counter=0
         echo "[+] git push ------ $pushCounter"
@@ -188,13 +188,13 @@ for a in `find -f ** -type f`; do
 		# --set-upstream: sets de branch when pushing to a branch that does not exist
 		git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH"
 
-		pushCounter+=1
+		pushCounter=(($pushCounter + 1))
 	fi
 
 done
 
 
- if (($counter != 0 ));
+if [ $counter -ne 0 ];
 then
 	
 	echo "[+] git push------ $pushCounter"
