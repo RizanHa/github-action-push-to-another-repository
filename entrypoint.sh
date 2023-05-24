@@ -167,7 +167,7 @@ counter=0
 pushCounter=1
 
 
-for a in `find ** -name "*.*" -print` do
+for a in `find ** -name "*.*" -print`; do
 	echo "[+] file - $a"
 
 	echo "[+] Adding git commit"
