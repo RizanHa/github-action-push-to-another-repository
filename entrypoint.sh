@@ -165,19 +165,18 @@ echo "[+] start push"
 maxCount=30
 counter=0
 pushCounter=1
-aa=$(`find -path ** -type f`)
-echo "[+] aa - $aa"
 
-for a in $aa; do
+
+for a in `find ** -name "*.*" -print` do
 	echo "[+] file - $a"
 
 	echo "[+] Adding git commit"
 	git add $a
 
-    counter= $counter + 1 
-	echo "[+] counter - $counter"	
+    echo "[+] counter - $((counter++))"
+	
 
-    if [ $counter -eq $maxCount ];
+    if [ $counter == $maxCount ];
     then
         counter=0
         echo "[+] git push ------ $pushCounter"
@@ -193,13 +192,13 @@ for a in $aa; do
 		# --set-upstream: sets de branch when pushing to a branch that does not exist
 		git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH"
 
-		pushCounter= $pushCounter + 1 
+		echo "[+] pushCounter++ - $((pushCounter++))"
 	fi
 
 done
 
 
-if [ $counter -ne 0 ];
+if [ $counter != 0 ];
 then
 	
 	echo "[+] git push------ $pushCounter"
@@ -220,5 +219,14 @@ fi
 
 
 
+git add .
+git status
 
+echo "[+] git diff-index:"
+# git diff-index : to avoid doing the git commit failing if there are no changes to be commit
+git diff-index --quiet HEAD || git commit --message "$COMMIT_MESSAGE - L"
+
+echo "[+] Pushing git commit - L"
+# --set-upstream: sets de branch when pushing to a branch that does not exist
+git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH"
 
