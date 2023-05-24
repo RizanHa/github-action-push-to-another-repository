@@ -68,6 +68,8 @@ echo "[+] Cloning destination git repository $DESTINATION_REPOSITORY_NAME"
 # Setup git
 git config --global user.email "$USER_EMAIL"
 git config --global user.name "$USER_NAME"
+
+#temp bug fix github
 git config --global http.version HTTP/1.1
 git config --global http.postBuffer 157286400
 
@@ -155,69 +157,64 @@ then
     git switch -c "$TARGET_BRANCH"
 fi
 
-#array=()
-#for i in `find -f ** -type f`;do
-     #echo "$i"
-#     array+=( "$i" )
-#done
 
 echo "[+] start push"
 
 
-maxCount=30
-counter=0
-pushCounter=1
+# maxCount=30
+# counter=0
+# pushCounter=1
 
 
-for a in `find ** -name "*.*" -print`; do
-	echo "[+] file - $a"
+# for a in `find ** -name "*.*" -print`; do
+# 	echo "[+] file - $a"
 
-	echo "[+] Adding git commit"
-	git add $a
+# 	echo "[+] Adding git commit"
+# 	git add $a
 
-    echo "[+] counter - $((counter++))"
+#     echo "[+] counter - $((counter++))"
 	
 
-    if [ $counter == $maxCount ];
-    then
-        counter=0
-        echo "[+] git push ------ $pushCounter"
+#     if [ $counter == $maxCount ];
+#     then
+#         counter=0
+#         echo "[+] git push ------ $pushCounter"
 
-		echo "[+] git status:"
-		git status
+# 		echo "[+] git status:"
+# 		git status
 
-		echo "[+] git diff-index:"
-		# git diff-index : to avoid doing the git commit failing if there are no changes to be commit
-		git diff-index --quiet HEAD || git commit --message "$COMMIT_MESSAGE - $pushCounter"
+# 		echo "[+] git diff-index:"
+# 		# git diff-index : to avoid doing the git commit failing if there are no changes to be commit
+# 		git diff-index --quiet HEAD || git commit --message "$COMMIT_MESSAGE - $pushCounter"
 
-		echo "[+] Pushing git commit - $pushCounter"
-		# --set-upstream: sets de branch when pushing to a branch that does not exist
-		git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH"
+# 		echo "[+] Pushing git commit - $pushCounter"
+# 		# --set-upstream: sets de branch when pushing to a branch that does not exist
+# 		git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH"
 
-		echo "[+] pushCounter++ - $((pushCounter++))"
-	fi
+# 		echo "[+] pushCounter++ - $((pushCounter++))"
+# 	fi
 
-done
+# done
 
 
-if [ $counter != 0 ];
-then
+# if [ $counter != 0 ];
+# then
 	
-	echo "[+] git push------ $pushCounter"
+# 	echo "[+] git push------ $pushCounter"
 
 	
-	echo "[+] git status:"
-	git status
+# 	echo "[+] git status:"
+# 	git status
 
-	echo "[+] git diff-index:"
-	# git diff-index : to avoid doing the git commit failing if there are no changes to be commit
-	git diff-index --quiet HEAD || git commit --message "$COMMIT_MESSAGE - $pushCounter"
+# 	echo "[+] git diff-index:"
+# 	# git diff-index : to avoid doing the git commit failing if there are no changes to be commit
+# 	git diff-index --quiet HEAD || git commit --message "$COMMIT_MESSAGE - $pushCounter"
 
-	echo "[+] Pushing git commit - $pushCounter"
-	# --set-upstream: sets de branch when pushing to a branch that does not exist
-	git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH"
+# 	echo "[+] Pushing git commit - $pushCounter"
+# 	# --set-upstream: sets de branch when pushing to a branch that does not exist
+# 	git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH"
 
-fi
+# fi
 
 
 
