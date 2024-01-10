@@ -54,7 +54,12 @@ inputs:
       [Optional] create target branch if not exist. Defaults to `false`
     default: false
     required: false
-
+  include-files-from-taget-folder:
+    type: boolean
+    description: >-
+      [Optional] include files from taget folder. Defaults to `false`
+    default: false
+    required: false
 runs:
   using: docker
   image: Dockerfile
@@ -71,6 +76,7 @@ runs:
     - '${{ inputs.commit-message }}'
     - '${{ inputs.target-directory }}'
     - '${{ inputs.create-target-branch-if-needed }}'
+    - '${{ inputs.include-files-from-taget-folder }}'
 branding:
   icon: git-commit
   color: green
